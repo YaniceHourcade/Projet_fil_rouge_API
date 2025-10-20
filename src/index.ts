@@ -1,12 +1,9 @@
-import express from "express";
-import artistRoute from "./routes/artist";
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 
-const app = express();
-const PORT = 3000;
-
-app.use(express.json());
-app.use("/api/artists", artistRoute);
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3000);
+  console.log('Server running on http://localhost:3000');
+}
+bootstrap();
