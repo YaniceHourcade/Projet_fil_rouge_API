@@ -1,9 +1,9 @@
 {
   "name": "projet_fil_rouge_api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "dev": "nodemon --watch \"src/**/*.ts\" --exec npx ts-node src/index.ts"
+    "dev": "nodemon --watch \"src/**/*.ts\" --exec npx ts-node src/main.ts"
   },
   "repository": {
     "type": "git",
