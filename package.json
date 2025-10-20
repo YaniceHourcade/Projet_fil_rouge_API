@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "dev": "npx nodemon --watch \"src/**/*.ts\" --exec \"npx ts-node src/index.ts\""
+    "dev": "npx nodemon --watch \"src/**/*.ts\" --exec \"npx ts-node src/main.ts\""
   },
   "repository": {
     "type": "git",
