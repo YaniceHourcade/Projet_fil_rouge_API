@@ -3,12 +3,7 @@ import { ArtistsModule } from './artists/artists.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [ArtistsModule],
-  
-})
-
-@Module({
-  imports: [UsersModule],
+  imports: [UsersModule, ArtistsModule], 
 })
 
 export class AppModule {}

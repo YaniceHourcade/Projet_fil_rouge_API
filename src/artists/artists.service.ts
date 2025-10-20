@@ -9,18 +9,15 @@ type ArtistWithRelations = Artist & {
 
 @Injectable()
 export class ArtistsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(): Promise<ArtistWithRelations[]> {
-    return this.prismaService.artist.findMany({
-      include: { albums: true, concerts: true },
-    });
+  async findAll(): Promise<Artist[]> {
+    return this.prisma.artist.findMany();
   }
 
-  async create(data: { name: string; genre: string }): Promise<ArtistWithRelations> {
-    return this.prismaService.artist.create({
+  async create(data: { name: string; genre: string; age: number; country: string; url: string }): Promise<Artist> {
+    return this.prisma.artist.create({
       data,
-      include: { albums: true, concerts: true },
     });
   }
 }
