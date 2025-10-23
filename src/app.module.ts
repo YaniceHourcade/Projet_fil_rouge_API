@@ -6,7 +6,6 @@ import { AlbumsModule } from './albums/albums.module';
 
 @Module({
   imports: [UsersModule, ArtistsModule, ConcertsModule, AlbumsModule],
-   
 })
 
 
