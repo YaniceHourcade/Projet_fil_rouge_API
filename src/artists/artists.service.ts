@@ -9,7 +9,7 @@ type Artist = ArtistType & {
 };
 
 @Injectable()
-export class ArtistsService {  
+export class ArtistsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<Artist[]> {
@@ -37,6 +37,20 @@ export class ArtistsService {
     return artist;
   }
 
+  async searchByName(name: string): Promise<Artist[]> {
+    return this.prisma.artist.findMany({
+      where: {
+        name: {
+          contains: name
+        },
+      },
+      include: {
+        albums: true,
+        concerts: true,
+      },
+    });
+  }
+  
   async findArtistByCountry(country: string): Promise<Artist[]> {
     const artists = await this.prisma.artist.findMany({
       where: { country },

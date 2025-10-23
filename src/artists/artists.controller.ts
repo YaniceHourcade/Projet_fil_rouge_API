@@ -23,6 +23,11 @@ export class ArtistsController {
     return this.artistsService.findArtist(id);
   }
 
+  @Get('search/:name')
+  getArtistByName(@Param('name') name: string): Promise<Artist[]> {
+    return this.artistsService.searchByName(name);
+  }
+
   @ApiParam({
     name: 'genre',
     type: String,
