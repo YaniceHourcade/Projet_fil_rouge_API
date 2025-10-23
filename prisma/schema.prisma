@@ -15,6 +15,15 @@ model User {
   role     String   @default("user")
 }
 
+model Albums {
+  id       Int    @id @default(autoincrement())
+  title    String
+  year     Int
+  song     Int
+  artist   Artist @relation(fields: [artistId], references: [id])
+  artistId Int
+}
+
 model Artist {
   id       Int       @id @default(autoincrement())
   name     String
@@ -22,18 +31,9 @@ model Artist {
   age      Int
   country  String
   url      String
-  albums   Album[]
+  albums   Albums[]
   concerts Concert[]
   fans     User[]    @relation("UserFavoris")
-}
-
-model Album {
-  id       Int    @id @default(autoincrement())
-  title    String
-  year     Int
-  song     Int
-  artist   Artist @relation(fields: [artistId], references: [id])
-  artistId Int
 }
 
 model Concert {
