@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
 import { ArtistsService } from './artists.service';
 import { Artist } from '@prisma/client';
+import { ApiBody, ApiOperation, ApiParam} from '@nestjs/swagger';
+import { ArtistDto } from './artists.dto';
 
 @Controller('artists')
 export class ArtistsController {
@@ -11,11 +13,53 @@ export class ArtistsController {
     return this.artistsService.findAll();
   }
 
+  @ApiParam({
+    name: 'id',
+    type: Number,
+    description: "Identifiant unique de l'utilisateur",
+  })
+  @Get(':id')
+  getUser(@Param('id') id: number) : Promise<Artist> { 
+    return this.artistsService.findArtist(id);
+  }
+
+  @ApiParam({
+    name: 'genre',
+    type: String,
+    description: "Genre de musique",
+  })
+  @Get('genre/:genre')
+  getArtistByGenre(@Param('genre') genre: string) : Promise<Artist[]> { 
+    return this.artistsService.findArtistByGenre(genre);
+  }
+
+  @ApiParam({
+    name: 'country',
+    type: String,
+    description: "Pays de l'artiste",
+  })
+  @Get('country/:country')
+  getArtistByCountry(@Param('country') country: string) : Promise<Artist[]> { 
+    return this.artistsService.findArtistByCountry(country);
+  }
+
   @Post()
-  async create(
-    @Body()
-    body: { name: string; genre: string; age: number; country: string; url: string },
-  ): Promise<Artist> {
+  @ApiOperation({ summary: "Créer un nouvel artiste" })
+  @ApiBody({ type: ArtistDto })
+  async create(@Body() body: ArtistDto): Promise<Artist> {
     return this.artistsService.create(body);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: "Supprimer un artiste" })
+  async delete(@Param('id') id: number): Promise<Artist> {
+    return this.artistsService.delete(id);
+  }
+
+  @Patch(':id')
+  @ApiOperation({summary: "Modifier un artiste" })
+  @ApiBody({ type: ArtistDto })
+  async update(@Body() body: ArtistDto, @Param('id') id: number): Promise<Artist> {
+    return this.artistsService.update(id, body);
   }
 }

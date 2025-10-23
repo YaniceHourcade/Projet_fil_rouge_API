@@ -1,10 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,          // supprime les champs non attendus
+      forbidNonWhitelisted: true, // renvoie une erreur si un champ inconnu est présent
+      transform: true,          // transforme le body JSON en instance de DTO
+    }),
+  );
+
   const config = new DocumentBuilder()
     .setTitle('Mon API projet fil rouge')
     .setDescription('Documentation de mon API NestJS avec OpenAPI')

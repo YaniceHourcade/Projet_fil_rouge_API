@@ -28,9 +28,9 @@ model Artist {
   id       Int       @id @default(autoincrement())
   name     String
   genre    String
-  age      Int
+  age      Int?
   country  String
-  url      String
+  url      String?
   albums   Albums[]
   concerts Concert[]
   fans     User[]    @relation("UserFavoris")
