@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { ArtistsService } from './artists.service';
 import { Artist } from '@prisma/client';
 import { ApiBody, ApiOperation, ApiParam} from '@nestjs/swagger';
-import { ArtistDto } from './artists.dto';
+import { ArtistDto } from './dto/artists.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/role.guard';
 

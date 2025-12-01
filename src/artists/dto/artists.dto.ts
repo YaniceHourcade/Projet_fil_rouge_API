@@ -13,7 +13,6 @@ export class ArtistDto {
   genre!: string;
 
   @ApiPropertyOptional({ description: "Âge de l'artiste" })
-  @IsOptional()
   @IsInt()
   @Min(10)
   @Max(120)

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { User as UserType} from '@prisma/client';
-import { UsersDto } from './users.dto';
+import { UsersDto } from './dto/users.dto';
 
 type User = UserType & {
   favoris: { id: number; name: string; genre: string; age: number | null; country: string; url: string | null}[];

@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { ApiBody, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/role.guard';
-import { UsersDto } from './users.dto';
+import { UsersDto } from './dto/users.dto';
 
 @Controller('user')
 export class UsersController {

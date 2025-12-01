@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Artist as ArtistType } from '@prisma/client';
-import { ArtistDto } from './artists.dto';
+import { ArtistDto } from './dto/artists.dto';
 
 type Artist = ArtistType & {
   albums: { id: number; title: string; year: number; artistId: number }[];
