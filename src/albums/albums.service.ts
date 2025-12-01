@@ -5,27 +5,27 @@ import { CreateAlbumDto } from './dto/create_albums.dto';
 
 @Injectable()
 export class AlbumsService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prisma: PrismaService) {}
 
   async findAll(): Promise<Albums[]> {
-    return this.prismaService.albums.findMany();
+    return this.prisma.albums.findMany();
   }
 
   async findOne(id: number): Promise<Albums | null> {
-    return this.prismaService.albums.findUnique({
+    return this.prisma.albums.findUnique({
       where: { id },
     });
   }
 
   async findByArtistId(artistId: number): Promise<Albums[]> {
-    return this.prismaService.albums.findMany({
+    return this.prisma.albums.findMany({
       where: { artistId },
-      include: { artist: true },
+      //include: { artist: true }, (si on veut les infos de l'artiste aussi)
     });
   }
 
   async findByGenre(genre: string): Promise<Albums[]> {
-    return this.prismaService.albums.findMany({
+    return this.prisma.albums.findMany({
       where: {
         artist: {
           genre
@@ -35,21 +35,21 @@ export class AlbumsService {
   }
   
   async create(createAlbumDto: CreateAlbumDto): Promise<Albums> {
-    return this.prismaService.albums.create({ data: createAlbumDto });
+    return this.prisma.albums.create({ data: createAlbumDto });
   }
 
   async deleteAll(): Promise<{ count: number }> {
-    return this.prismaService.albums.deleteMany();
+    return this.prisma.albums.deleteMany();
   }
 
   async deleteOne(id: number): Promise<Albums> {
-    return this.prismaService.albums.delete({
+    return this.prisma.albums.delete({
       where: { id },
     });
   }
 
   async update(id: number, data: Partial<Albums>): Promise<Albums> {
-    return this.prismaService.albums.update({
+    return this.prisma.albums.update({
       where: { id },
       data,
     });
