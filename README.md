@@ -22,3 +22,12 @@ implementer concerts et albums
 
 
 ptit interface?
+
+seance suivante: 
+probleme token pas reconnu ou pas bien lu
+verifier bien toutes les routes
+verifier la documentation,
+deconnexion 
+test favoris, 
+securisé les routes,
+apporter des parametres en plus exemple : un user peut soit avoir comme role user soit admin si différent rejeter la demande

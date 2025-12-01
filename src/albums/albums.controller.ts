@@ -28,7 +28,7 @@ export class AlbumsController {
   @ApiOperation({ summary: 'Récupérer des albums par ID d’artiste' })
   @ApiParam({ name: 'artistId', type: Number })
   @ApiResponse({ status: 200, description: 'Albums trouvés', type: Object, isArray: true })
-  async findByArtistId(@Body('artistId') artistId: string): Promise<Albums[]> {
+  async findByArtistId(@Param('artistId') artistId: string): Promise<Albums[]> {
     return this.albumsService.findByArtistId(Number(artistId));
   }
 
