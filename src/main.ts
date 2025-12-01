@@ -18,7 +18,8 @@ async function bootstrap() {
     .setTitle('Mon API projet fil rouge')
     .setDescription('Documentation de mon API NestJS avec OpenAPI')
     .setVersion('1.0')
-    .addTag('users')
+    .addTag('API Projet Fil Rouge')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
