@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from '../users/users.module';
+import { PrismaService } from '../prisma/prisma.service';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -17,7 +18,7 @@ dotenv.config();
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, PrismaService],
   controllers: [AuthController],
   exports: [AuthService],
 })

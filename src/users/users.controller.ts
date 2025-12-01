@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { ApiBody, ApiOperation, ApiParam } from '@nestjs/swagger';
@@ -26,6 +26,21 @@ export class UsersController {
   @Get(':id')
   getUser(@Param('id') id: number) : Promise<User> { 
     return this.userService.findUser(id);
+  }
+
+  @Post('create')
+  @ApiOperation({ summary: 'Créer un nouvel utilisateur' })
+  @ApiBody({ type: UsersDto})
+  async createUser(@Body() body: UsersDto): Promise<User> {
+    return this.userService.createUser(body);
+  }
+
+  // Endpoint pour supprimer un utilisateur
+  @Delete('delete/:id')
+  @ApiOperation({ summary: 'Supprimer un utilisateur par ID' })
+  @ApiParam({ name: 'id', type: 'number', description: "ID de l'utilisateur à supprimer" })
+  async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    return this.userService.deleteUser(id);
   }
 
   @ApiParam({

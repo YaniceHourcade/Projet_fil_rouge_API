@@ -5,7 +5,11 @@ doc : http://localhost:3000/api
 seance du 13/11: 
 ajout de l'auth
 pas de test encore fait
-ajout anti-usurpation (un user ne peut ajouter que sur son propre compte)
+ajout anti-usurpation (un user ne peut ajouter en favoris que sur son propre compte)
+
+seance du 01/12:
+
+
 
 
 prochaine seance:

@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, UseGuards, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { ArtistsService } from './artists.service';
 import { Artist } from '@prisma/client';
 import { ApiBody, ApiOperation, ApiParam} from '@nestjs/swagger';
@@ -51,15 +52,19 @@ export class ArtistsController {
     description: "Pays de l'artiste",
   })
   @Get('country/:country')
-  getArtistByCountry(@Param('country') country: string) : Promise<Artist[]> { 
+  getArtistByCountry(@Param('country') country: string, @Req() req: Request) : Promise<Artist[]> { 
+    console.log('Utilisateur authentifié :', req.user); // Vérifiez si l'utilisateur est attaché
+  
     return this.artistsService.findArtistByCountry(country);
   }
-
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  
+  @UseGuards(JwtAuthGuard)//
   @Post()
   @ApiOperation({ summary: "Créer un nouvel artiste" })
   @ApiBody({ type: ArtistDto })
-  async create(@Body() body: ArtistDto): Promise<Artist> {
+  async create(@Body() body: ArtistDto, @Req() req: Request): Promise<Artist> {
+    console.log('Utilisateur authentifié :', req.user); // Vérifiez si l'utilisateur est attaché
+  
     return this.artistsService.create(body);
   }
 

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { User as UserType} from '@prisma/client';
+import { UsersDto } from './users.dto';
 
 type User = UserType & {
   favoris: { id: number; name: string; genre: string; age: number | null; country: string; url: string | null}[];
@@ -23,6 +24,23 @@ export class UsersService {
     }
   
     return user;
+  }
+
+  async createUser(data: UsersDto): Promise<UserType> {
+    return this.prisma.user.create({
+      data,
+    });
+  }
+
+  // Supprimer un utilisateur par ID
+  async deleteUser(userId: number): Promise<UserType> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException(`Utilisateur avec l'ID ${userId} non trouvé`);
+    }
+    return this.prisma.user.delete({
+      where: { id: userId },
+    });
   }
 
   // ajoute un favoris
