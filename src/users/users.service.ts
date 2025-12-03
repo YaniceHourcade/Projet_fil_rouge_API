@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { User as UserType} from '@prisma/client';
 import { UsersDto } from './dto/users.dto';
-
+import * as bcrypt from 'bcrypt';
 type User = UserType & {
   favoris: { id: number; name: string; genre: string; age: number | null; country: string; url: string | null}[];
 };
@@ -26,6 +26,16 @@ export class UsersService {
     return user;
   }
 
+  async getAllUsers(): Promise<User[]> {
+    const users = await this.prisma.user.findMany({
+      include: {
+        favoris: false,
+      },
+    });
+
+    return users as User[];
+  }
+
   async createUser(data: UsersDto): Promise<UserType> {
     return this.prisma.user.create({
       data,
@@ -41,6 +51,22 @@ export class UsersService {
     return this.prisma.user.delete({
       where: { id: userId },
     });
+  }
+
+  async updateUser(userId: number, data: UsersDto): Promise<UserType> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException(`Utilisateur avec l'ID ${userId} non trouvé`);
+    }
+    const updateUser = await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        username: data.username,
+        password: await bcrypt.hash(data.password, 10),
+      },
+    });
+
+    return updateUser;
   }
 
   // ajoute un favoris

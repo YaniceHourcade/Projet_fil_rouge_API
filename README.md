@@ -1,6 +1,15 @@
-start : npm run dev
+# Projet fil rouge
 
-doc : http://localhost:3000/api
+## How start the project ?
+```
+npm install
+prisma migrate dev
+npm run dev
+```
+
+## Documentation
+Swagger : http://localhost:3000/api
+
 
 seance du 13/11: 
 ajout de l'auth

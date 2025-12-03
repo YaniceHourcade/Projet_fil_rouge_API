@@ -17,6 +17,12 @@ export class UsersController {
     return this.userService.findUser(id);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('all')
+  getAllUsers() : Promise<User[]> { 
+    return this.userService.getAllUsers();
+  }
+
   @UseGuards(JwtAuthGuard)
   @ApiParam({
     name: 'id',
@@ -37,10 +43,19 @@ export class UsersController {
 
   // Endpoint pour supprimer un utilisateur
   @Delete('delete/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Supprimer un utilisateur par ID' })
   @ApiParam({ name: 'id', type: 'number', description: "ID de l'utilisateur à supprimer" })
   async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return this.userService.deleteUser(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('update')
+  @ApiOperation({ summary: 'Modifier un utilisateur' })
+  async updateUser(@Req() req: any, @Body() body: UsersDto): Promise<User> {
+    const userId = req.user.id;
+    return this.userService.updateUser(userId, body);
   }
 
   @ApiParam({
@@ -66,6 +81,6 @@ export class UsersController {
   @ApiOperation({ summary: 'Enlever en favoris' })
   async delFav(@Req() req: any, @Param('artistId') artistId: number): Promise<User> {
     const userId = req.user.id;
-    return this.userService.addFav(userId, artistId);
+    return this.userService.delFav(userId, artistId);
   }
 }
