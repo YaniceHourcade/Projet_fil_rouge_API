@@ -1,5 +1,9 @@
 # Projet fil rouge
 
+__Description :__
+
+Notre Projet fil rouge est une api de musique, on peut y retrouver différente route pour consulter des artistes, leur album et également leur concert, en aillant un compte vous avez aussi la possibilité de pouvoir avoir une liste d'artiste favoris.
+
 ## How start the project ?
 ```
 npm install
@@ -10,6 +14,22 @@ npm run dev
 ## Documentation
 Swagger : http://localhost:3000/api
 
+## Jeu de données
+Un dump.sql est donné pour permettre d'avoir un base fourni avec de la donnée
+
+Les identifiants du user admin test :
+- Username : admin
+- Mot de passe : admin
+
+## Fonctionnalités
+
+- Authentification 
+ -> Connexion, Inscription, Déconnexion
+- Routes protégés par des rôles
+- Favoris
+- Route filtrante 
+
+--- 
 
 seance du 13/11: 
 ajout de l'auth
@@ -40,3 +60,9 @@ deconnexion
 test favoris, 
 securisé les routes,
 apporter des parametres en plus exemple : un user peut soit avoir comme role user soit admin si différent rejeter la demande
+
+
+pour demain : 
+test authentification
+test route
+put ou patch ?

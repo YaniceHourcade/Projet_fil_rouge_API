@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -11,34 +11,55 @@ export class AuthService {
     async validateUser(username: string, pass: string): Promise<any> {
         const user = await this.prisma.user.findUnique({
           where: { username },
-          select: { username: true, password: true, role: true }, // Inclure le rôle ici
+          select: { id: true, username: true, password: true, role: true },
         });
       
         if (!user) {
           return null; 
         }
       
-    //    const isMatch = await bcrypt.compare(pass, user.password);
-    //    if (isMatch) {
-    //      const { password, ...result } = user;
-    //      return result;
-    //    }
-      
-        const { password, ...result } = user;
-        return result;
+        const isMatch = await bcrypt.compare(pass, user.password);
+        if (isMatch) {
+          const { password, ...result } = user;
+          return result;
+        }
+        return null;
       }
 
     async login(user: any) {
-        // Ensure validateUser is awaited to handle asynchronous behavior
         const payload = await this.validateUser(user.username, user.password);
-        console.log('Payload JWT:', payload);
         if (!payload) {
-            throw new Error('Invalid credentials'); // Handle invalid user credentials
+            throw new UnauthorizedException('Identifiants invalides');
         }
     
-        console.log('Payload JWT:', payload); // Log the payload for debugging
+        // Créer le payload JWT avec sub (standard JWT pour l'ID utilisateur)
+        const jwtPayload = {
+          sub: payload.id,
+          username: payload.username,
+          role: payload.role,
+        };
+    
         return {
-            access_token: this.jwtService.sign(payload),
+            access_token: this.jwtService.sign(jwtPayload),
+        };
+    }
+
+    async register(user: any) {
+      const newUser = await this.prisma.user.create({
+            data: {
+                username: user.username,
+                password: await bcrypt.hash(user.password, 10),
+                role: user.role || 'user',
+            },
+          });
+          
+        return newUser;
+    }
+
+    async logout() {
+        return {
+            access_token: null,
+            message: 'Déconnexion réussie',
         };
     }
 }

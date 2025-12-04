@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Concert } from '@prisma/client';
-import { CreateConcertDto } from './dto/create_concerts.dto';
+import { ConcertDto } from './dto/concert.dto';
 
 @Injectable()
 export class ConcertsService {
@@ -39,16 +39,12 @@ export class ConcertsService {
     });
   }
 
-  async create(createConcertDto: CreateConcertDto): Promise<Concert> {
+  async create(createConcertDto: ConcertDto): Promise<Concert> {
     return this.prisma.concert.create({ data: {
         ...createConcertDto,
         date: new Date(createConcertDto.date),
       }, 
     });
-  }
-
-  async deleteAll(): Promise<{ count: number }> {
-    return this.prisma.concert.deleteMany();
   }
 
   async deleteOne(id: number): Promise<Concert> {
@@ -57,7 +53,15 @@ export class ConcertsService {
     });
   }
 
-  async update(id: number, data: Partial<Concert>): Promise<Concert> {
+  async update(id: number, data: Partial<ConcertDto>): Promise<Concert> {
+    const concert = await this.prisma.concert.findUnique({
+      where: { id },
+    });
+
+    if (!concert) {
+      throw new NotFoundException(`Concert avec l'id ${id} introuvable`);
+    }
+
     const updateData: any = { ...data };
 
     if (data.date) {

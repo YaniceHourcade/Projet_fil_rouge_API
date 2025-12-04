@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { User as UserType} from '@prisma/client';
-import { UsersDto } from './dto/users.dto';
+import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 type User = UserType & {
   favoris: { id: number; name: string; genre: string; age: number | null; country: string; url: string | null}[];
@@ -20,7 +20,7 @@ export class UsersService {
     });
   
     if (!user) {
-      throw new NotFoundException(`Artiste avec l'id ${id} introuvable`);
+      throw new NotFoundException(`Utilisateur avec l'id ${id} introuvable`);
     }
   
     return user;
@@ -36,10 +36,15 @@ export class UsersService {
     return users as User[];
   }
 
-  async createUser(data: UsersDto): Promise<UserType> {
-    return this.prisma.user.create({
-      data,
+  async createUser(data: UserDto): Promise<UserType> {
+    const newUser = await this.prisma.user.create({
+      data: {
+        username: data.username,
+        password: await bcrypt.hash(data.password, 10),
+        role: data.role || 'user',
+      },
     });
+    return newUser;
   }
 
   // Supprimer un utilisateur par ID
@@ -53,17 +58,24 @@ export class UsersService {
     });
   }
 
-  async updateUser(userId: number, data: UsersDto): Promise<UserType> {
+  async updateUser(userId: number, data: Partial<UserDto>): Promise<UserType> {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
       throw new NotFoundException(`Utilisateur avec l'ID ${userId} non trouvé`);
     }
+
+    const updateData: any = {};
+
+    if (data.username) {
+      updateData.username = data.username;
+    }
+    if (data.password) {
+      updateData.password = await bcrypt.hash(data.password, 10);
+    }
+
     const updateUser = await this.prisma.user.update({
       where: { id: userId },
-      data: {
-        username: data.username,
-        password: await bcrypt.hash(data.password, 10),
-      },
+      data: updateData,
     });
 
     return updateUser;
@@ -92,7 +104,7 @@ export class UsersService {
     });
   
     if (!updateUser) {
-      throw new NotFoundException(`Artiste avec l'id ${id} introuvable`);
+      throw new NotFoundException(`Utilisateur avec l'id ${id} introuvable`);
     }
   
     return updateUser;
@@ -121,7 +133,7 @@ export class UsersService {
     });
   
     if (!updateUser) {
-      throw new NotFoundException(`Artiste avec l'id ${id} introuvable`);
+      throw new NotFoundException(`Utilisateur avec l'id ${id} introuvable`);
     }
   
     return updateUser;
