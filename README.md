@@ -7,7 +7,7 @@ Notre Projet fil rouge est une api de musique, on peut y retrouver différente r
 ## How start the project ?
 ```
 npm install
-prisma migrate dev
+npx prisma migrate dev
 npm run dev
 ```
 

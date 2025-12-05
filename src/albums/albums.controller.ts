@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Delete, Body, Put, Param, UseGuards, Patch } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
-import { Albums } from '@prisma/client';
+import { Album } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { AlbumDto } from './dto/album.dto';
 import { RolesGuard } from '../auth/role.guard';
@@ -17,7 +17,7 @@ export class AlbumsController {
     description: 'Retourne la liste de tous les albums disponibles. Route publique, aucune authentification requise.'
   })
   @ApiResponse({ status: 200, description: 'Liste des albums', type: AlbumDto, isArray: true })
-  async findAll(): Promise<Albums[]> {
+  async findAll(): Promise<Album[]> {
     return this.albumsService.findAll();
   }
 
@@ -29,7 +29,7 @@ export class AlbumsController {
   @ApiParam({ name: 'id', type: Number, description: "ID de l'album" })
   @ApiResponse({ status: 200, description: 'Album trouvé', type: AlbumDto})
   @ApiResponse({ status: 404, description: 'Album non trouvé' })
-  async findOne(@Param('id') id: string): Promise<Albums | null> {
+  async findOne(@Param('id') id: string): Promise<Album | null> {
     return this.albumsService.findOne(Number(id));
   }
 
@@ -40,7 +40,7 @@ export class AlbumsController {
   })
   @ApiParam({ name: 'artistId', type: Number, description: "ID de l'artiste" })
   @ApiResponse({ status: 200, description: 'Albums trouvés', type: AlbumDto, isArray: true })
-  async findByArtistId(@Param('artistId') artistId: string): Promise<Albums[]> {
+  async findByArtistId(@Param('artistId') artistId: string): Promise<Album[]> {
     return this.albumsService.findByArtistId(Number(artistId));
   }
 
@@ -68,7 +68,7 @@ export class AlbumsController {
   @ApiResponse({ status: 403, description: 'Accès interdit - Rôle admin requis' })
   async create(
     @Body() AlbumDto: AlbumDto,
-  ): Promise<Albums> {
+  ): Promise<Album> {
     return this.albumsService.create(AlbumDto);
   }
 
@@ -105,7 +105,7 @@ export class AlbumsController {
   async update(
     @Param('id') id: string,
     @Body() body: Partial<AlbumDto>,
-  ): Promise<Albums> {
+  ): Promise<Album> {
     return this.albumsService.update(Number(id), body);
   }
 }

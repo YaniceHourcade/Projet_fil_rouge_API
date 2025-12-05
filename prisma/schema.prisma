@@ -15,7 +15,7 @@ model User {
   role     String   @default("user")
 }
 
-model Albums {
+model Album {
   id       Int    @id @default(autoincrement())
   title    String
   year     Int
@@ -31,7 +31,7 @@ model Artist {
   age      Int?
   country  String
   url      String?
-  albums   Albums[]
+  albums   Album[]
   concerts Concert[]
   fans     User[]    @relation("UserFavoris")
 }
