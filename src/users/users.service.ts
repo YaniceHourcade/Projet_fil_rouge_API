@@ -4,7 +4,7 @@ import { User as UserType} from '@prisma/client';
 import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 type User = UserType & {
-  favoris: { id: number; name: string; genre: string; age: number | null; country: string; url: string | null}[];
+  fav: { id: number; name: string; genre: string; age: number | null; country: string; url: string | null}[];
 };
 
 @Injectable()
@@ -15,7 +15,7 @@ export class UsersService {
     const user = await this.prisma.user.findUnique({
       where: { id },
       include: {
-        favoris: true,
+        fav: true,
       },
     });
   
@@ -29,7 +29,7 @@ export class UsersService {
   async getAllUsers(): Promise<User[]> {
     const users = await this.prisma.user.findMany({
       include: {
-        favoris: false,
+        fav: false,
       },
     });
 
@@ -94,12 +94,12 @@ export class UsersService {
     const updateUser = await this.prisma.user.update({
       where: { id },
       data: {
-        favoris: {
+        fav: {
           connect: { id: artistId}, 
         },
       },
       include: {
-        favoris: true,
+        fav: true,
       },
     });
   
@@ -123,12 +123,12 @@ export class UsersService {
     const updateUser = await this.prisma.user.update({
       where: { id },
       data: {
-        favoris: {
+        fav: {
           disconnect: { id: artistId}, 
         },
       },
       include: {
-        favoris: true,
+        fav: true,
       },
     });
   

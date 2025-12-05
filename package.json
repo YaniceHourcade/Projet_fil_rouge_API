@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/YaniceHourcade/Projet_fil_rouge_API.git"
   },
+  "prisma": {
+  "seed": "ts-node prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

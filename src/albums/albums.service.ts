@@ -1,30 +1,30 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Albums } from '@prisma/client';
+import { Album } from '@prisma/client';
 import { AlbumDto } from './dto/album.dto';
 
 @Injectable()
 export class AlbumsService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(): Promise<Albums[]> {
-    return this.prisma.albums.findMany();
+  async findAll(): Promise<Album[]> {
+    return this.prisma.album.findMany();
   }
 
-  async findOne(id: number): Promise<Albums | null> {
-    return this.prisma.albums.findUnique({
+  async findOne(id: number): Promise<Album | null> {
+    return this.prisma.album.findUnique({
       where: { id },
     });
   }
 
-  async findByArtistId(artistId: number): Promise<Albums[]> {
-    return this.prisma.albums.findMany({
+  async findByArtistId(artistId: number): Promise<Album[]> {
+    return this.prisma.album.findMany({
       where: { artistId },
     });
   }
 
-  async findByGenre(genre: string): Promise<Albums[]> {
-    return this.prisma.albums.findMany({
+  async findByGenre(genre: string): Promise<Album[]> {
+    return this.prisma.album.findMany({
       where: {
         artist: {
           genre
@@ -33,18 +33,18 @@ export class AlbumsService {
     });
   }
   
-  async create(createAlbumDto: AlbumDto): Promise<Albums> {
-    return this.prisma.albums.create({ data: createAlbumDto });
+  async create(createAlbumDto: AlbumDto): Promise<Album> {
+    return this.prisma.album.create({ data: createAlbumDto });
   }
 
-  async deleteOne(id: number): Promise<Albums> {
-    return this.prisma.albums.delete({
+  async deleteOne(id: number): Promise<Album> {
+    return this.prisma.album.delete({
       where: { id },
     });
   }
 
-  async update(id: number, data: Partial<AlbumDto>): Promise<Albums> {
-    const album = await this.prisma.albums.findUnique({
+  async update(id: number, data: Partial<AlbumDto>): Promise<Album> {
+    const album = await this.prisma.album.findUnique({
       where: { id },
     });
 
@@ -52,7 +52,7 @@ export class AlbumsService {
       throw new NotFoundException(`Album avec l'id ${id} introuvable`);
     }
 
-    return this.prisma.albums.update({
+    return this.prisma.album.update({
       where: { id },
       data,
     });

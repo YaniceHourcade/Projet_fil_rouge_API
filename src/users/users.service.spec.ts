@@ -50,7 +50,7 @@ describe('UsersService', () => {
         id: 1,
         username: 'testuser',
         role: 'user',
-        favoris: [
+        fav: [
           { id: 1, name: 'Artist 1', genre: 'Rock', age: 30, country: 'USA', url: null },
         ],
       };
@@ -62,7 +62,7 @@ describe('UsersService', () => {
       expect(result).toEqual(mockUser);
       expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { id: 1 },
-        include: { favoris: true },
+        include: { fav: true },
       });
     });
 
@@ -86,7 +86,7 @@ describe('UsersService', () => {
 
       expect(result).toEqual(mockUsers);
       expect(mockPrismaService.user.findMany).toHaveBeenCalledWith({
-        include: { favoris: false },
+        include: { fav: false },
       });
     });
   });
@@ -207,7 +207,7 @@ describe('UsersService', () => {
       const mockUser = {
         id: 1,
         username: 'testuser',
-        favoris: [mockArtist],
+        fav: [mockArtist],
       };
 
       mockPrismaService.artist.findUnique.mockResolvedValue(mockArtist);
@@ -219,11 +219,11 @@ describe('UsersService', () => {
       expect(mockPrismaService.user.update).toHaveBeenCalledWith({
         where: { id: 1 },
         data: {
-          favoris: {
+          fav: {
             connect: { id: 1 },
           },
         },
-        include: { favoris: true },
+        include: { fav: true },
       });
     });
 
@@ -240,7 +240,7 @@ describe('UsersService', () => {
       const mockUser = {
         id: 1,
         username: 'testuser',
-        favoris: [],
+        fav: [],
       };
 
       mockPrismaService.artist.findUnique.mockResolvedValue(mockArtist);
@@ -252,11 +252,11 @@ describe('UsersService', () => {
       expect(mockPrismaService.user.update).toHaveBeenCalledWith({
         where: { id: 1 },
         data: {
-          favoris: {
+          fav: {
             disconnect: { id: 1 },
           },
         },
-        include: { favoris: true },
+        include: { fav: true },
       });
     });
 

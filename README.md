@@ -8,6 +8,7 @@ Notre Projet fil rouge est une api de musique, on peut y retrouver différente r
 ```
 npm install
 npx prisma migrate dev
+npx prisma db seed
 npm run dev
 ```
 
@@ -34,8 +35,8 @@ Swagger : http://localhost:3000/api
 Un dump.sql est donné pour permettre d'avoir un base fourni avec de la donnée
 
 Les identifiants du user admin test :
-- Username : admin
-- Mot de passe : admin
+- Username : noemie
+- Mot de passe : paswword123
 
 ## Fonctionnalités
 
