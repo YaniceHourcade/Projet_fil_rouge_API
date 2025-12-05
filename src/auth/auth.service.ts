@@ -32,7 +32,6 @@ export class AuthService {
             throw new UnauthorizedException('Identifiants invalides');
         }
     
-        // Créer le payload JWT avec sub (standard JWT pour l'ID utilisateur)
         const jwtPayload = {
           sub: payload.id,
           username: payload.username,
@@ -45,15 +44,22 @@ export class AuthService {
     }
 
     async register(user: any) {
-      const newUser = await this.prisma.user.create({
-            data: {
-                username: user.username,
-                password: await bcrypt.hash(user.password, 10),
-                role: user.role || 'user',
-            },
-          });
-          
+      try {
+        const newUser = await this.prisma.user.create({
+          data: {
+            username: user.username,
+            password: await bcrypt.hash(user.password, 10),
+            role: user.role || 'user',
+          },
+        });
+  
         return newUser;
+      } catch (error: any) {
+        if (error?.code === 'P2002') {
+          throw new UnauthorizedException('Nom d’utilisateur déjà utilisé');
+        }
+        throw error;
+      }
     }
 
     async logout() {

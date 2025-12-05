@@ -32,7 +32,6 @@ Les identifiants du user admin test :
 --- 
 
 seance du 13/11: 
-ajout de l'auth
 pas de test encore fait
 ajout anti-usurpation (un user ne peut ajouter en favoris que sur son propre compte)
 
@@ -65,6 +64,4 @@ apporter des parametres en plus exemple : un user peut soit avoir comme role use
 pour demain : 
 
 
-
-test authentification
 test route
