@@ -89,6 +89,8 @@ export class ArtistsService {
     });
   }
 
+  
+
   async delete(id: number): Promise<ArtistType> {
     const artist = await this.prisma.artist.findUnique({
       where: { id }

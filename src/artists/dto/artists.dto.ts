@@ -1,5 +1,5 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsInt, IsUrl, Min, Max, IsOptional, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsInt, IsUrl, Min, Max, IsNotEmpty } from 'class-validator';
 
 export class ArtistDto {
   @ApiProperty({ description: "Nom de l'artiste" })
@@ -12,19 +12,18 @@ export class ArtistDto {
   @IsString()
   genre!: string;
 
-  @ApiPropertyOptional({ description: "Âge de l'artiste" })
+  @ApiProperty({ description: "Âge de l'artiste" })
   @IsInt()
   @Min(10)
   @Max(120)
-  age?: number;
+  age!: number;
 
   @ApiProperty({ description: "Pays de l'artiste" })
   @IsNotEmpty()
   @IsString()
   country!: string;
 
-  @ApiPropertyOptional({ description: "URL Spotify de l'artiste" })
-  @IsOptional()
+  @ApiProperty({ description: "URL Spotify de l'artiste" })
   @IsUrl()
-  url?: string;
+  url!: string;
 }
