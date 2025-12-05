@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Body, Put, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Put, Param, UseGuards, Patch } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
 import { Albums } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
@@ -91,7 +91,7 @@ export class AlbumsController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
-  @Put(':id')
+  @Patch(':id')
   @ApiOperation({ 
     summary: 'Mettre à jour un album',
     description: 'Met à jour les informations d\'un album existant. Seuls les champs fournis seront modifiés (mise à jour partielle). Nécessite une authentification JWT avec le rôle ADMIN uniquement.'

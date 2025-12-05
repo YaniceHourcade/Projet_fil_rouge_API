@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Body, Put, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Put, Param, UseGuards, Patch } from '@nestjs/common';
 import { ConcertsService } from './concerts.service';
 import { Concert } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
@@ -100,7 +100,7 @@ export class ConcertsController {
     return { message: `Concert avec l'id ${id} supprimé avec succès.` };
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({ 
