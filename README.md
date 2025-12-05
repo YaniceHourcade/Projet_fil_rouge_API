@@ -11,6 +11,22 @@ prisma migrate dev
 npm run dev
 ```
 
+## Tests
+Pour lancer les tests unitaires :
+```
+npm test
+```
+
+Pour lancer les tests en mode watch :
+```
+npm run test:watch
+```
+
+Pour générer un rapport de couverture :
+```
+npm run test:cov
+```
+
 ## Documentation
 Swagger : http://localhost:3000/api
 
