@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Albums } from '@prisma/client';
-import { CreateAlbumDto } from './dto/create_albums.dto';
+import { AlbumDto } from './dto/album.dto';
 
 @Injectable()
 export class AlbumsService {
@@ -20,7 +20,6 @@ export class AlbumsService {
   async findByArtistId(artistId: number): Promise<Albums[]> {
     return this.prisma.albums.findMany({
       where: { artistId },
-      //include: { artist: true }, (si on veut les infos de l'artiste aussi)
     });
   }
 
@@ -34,12 +33,8 @@ export class AlbumsService {
     });
   }
   
-  async create(createAlbumDto: CreateAlbumDto): Promise<Albums> {
+  async create(createAlbumDto: AlbumDto): Promise<Albums> {
     return this.prisma.albums.create({ data: createAlbumDto });
-  }
-
-  async deleteAll(): Promise<{ count: number }> {
-    return this.prisma.albums.deleteMany();
   }
 
   async deleteOne(id: number): Promise<Albums> {
@@ -48,7 +43,15 @@ export class AlbumsService {
     });
   }
 
-  async update(id: number, data: Partial<Albums>): Promise<Albums> {
+  async update(id: number, data: Partial<AlbumDto>): Promise<Albums> {
+    const album = await this.prisma.albums.findUnique({
+      where: { id },
+    });
+
+    if (!album) {
+      throw new NotFoundException(`Album avec l'id ${id} introuvable`);
+    }
+
     return this.prisma.albums.update({
       where: { id },
       data,

@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsIn } from 'class-validator';
 
-export class UsersDto {
+export class UserDto {
   @ApiProperty({ description: "Nom de l'utilisateur" })
   @IsNotEmpty()
   @IsString()
@@ -15,5 +15,6 @@ export class UsersDto {
   @ApiPropertyOptional({ description: "Rôle de l'utilisateur" })
   @IsOptional()
   @IsString()
-  role?: string;
+  @IsIn(['user', 'admin'])
+  role?: 'user' | 'admin';
 }

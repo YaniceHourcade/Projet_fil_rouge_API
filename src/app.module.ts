@@ -9,6 +9,4 @@ import { AuthModule } from './auth/auth.module';
   imports: [UsersModule, ArtistsModule, ConcertsModule, AlbumsModule, AuthModule],
 })
 
-
-
 export class AppModule {}

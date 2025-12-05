@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsInt, IsDateString, Min, IsNotEmpty } from 'class-validator';
 
-export class CreateConcertDto {
+export class ConcertDto {
   @ApiProperty({ example: 'Live in Paris', description: 'Le nom du concert' })
   @IsString()
   @IsNotEmpty()
@@ -18,6 +18,6 @@ export class CreateConcertDto {
 
   @ApiProperty({ example: 1, description: 'ID de l’artiste' })
   @IsInt()
-  @Min(1)
+  @IsNotEmpty()
   artistId!: number;
 }

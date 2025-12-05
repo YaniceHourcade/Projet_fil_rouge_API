@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Artist as ArtistType } from '@prisma/client';
-import { ArtistDto } from './dto/artists.dto';
+import { ArtistDto } from './dto/artist.dto';
 
 type Artist = ArtistType & {
   albums: { id: number; title: string; year: number; artistId: number }[];
@@ -108,7 +108,7 @@ export class ArtistsService {
   }
   
 
-  async update(id: number, data: ArtistDto): Promise<ArtistType>
+  async update(id: number, data: Partial<ArtistDto>): Promise<ArtistType>
   {
     const artist = await this.prisma.artist.findUnique({
       where: { id }
@@ -118,9 +118,27 @@ export class ArtistsService {
       throw new NotFoundException(`Artiste avec l'id ${id} introuvable`);
     }
 
-    const updateArtist = this.prisma.artist.update({
+    const updateData: any = {};
+
+    if (data.name) {
+      updateData.name = data.name;
+    }
+    if (data.genre) {
+      updateData.genre = data.genre;
+    }
+    if (data.age !== undefined) {
+      updateData.age = data.age;
+    }
+    if (data.country) {
+      updateData.country = data.country;
+    }
+    if (data.url !== undefined) {
+      updateData.url = data.url;
+    }
+
+    const updateArtist = await this.prisma.artist.update({
       where: { id },
-      data: data 
+      data: updateData 
     });
   
     return updateArtist;
