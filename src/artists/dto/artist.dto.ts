@@ -1,7 +1,6 @@
 import { ApiProperty} from '@nestjs/swagger';
 import { IsString, IsInt, IsUrl, Min, Max, IsNotEmpty, IsIn } from 'class-validator';
 
-
 export class ArtistDto {
   @ApiProperty({ description: "Nom de l'artiste" })
   @IsNotEmpty()
