@@ -20,7 +20,6 @@ export class AlbumsService {
   async findByArtistId(artistId: number): Promise<Albums[]> {
     return this.prisma.albums.findMany({
       where: { artistId },
-      //include: { artist: true }, (si on veut les infos de l'artiste aussi)
     });
   }
 
